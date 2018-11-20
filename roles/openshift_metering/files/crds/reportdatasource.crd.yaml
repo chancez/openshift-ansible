@@ -3,7 +3,7 @@ kind: CustomResourceDefinition
 metadata:
   name: reportdatasources.metering.openshift.io
   annotations:
-    catalog.app.coreos.com/displayName: "Chargeback data source"
+    catalog.app.coreos.com/displayName: "Metering data source"
     catalog.app.coreos.com/description: "A resource describing a source of data for usage by Report Generation Queries"
 spec:
   group: metering.openshift.io
@@ -13,3 +13,22 @@ spec:
     plural: reportdatasources
     singular: reportdatasource
     kind: ReportDataSource
+    shortNames:
+    - datasource
+    - datasources
+  additionalPrinterColumns:
+  - name: Table Name
+    type: string
+    JSONPath: .status.tableName
+  - name: Earliest Metric
+    type: string
+    JSONPath: .status.prometheusMetricImportStatus.earliestImportedMetricTime
+  - name: Newest Metric
+    type: string
+    JSONPath: .status.prometheusMetricImportStatus.newestImportedMetricTime
+  - name: Last Import Time
+    type: string
+    JSONPath: .status.prometheusMetricImportStatus.lastImportTime
+  - name: Age
+    type: date
+    JSONPath: .metadata.creationTimestamp
